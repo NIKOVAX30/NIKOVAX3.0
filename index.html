@@ -9,27 +9,34 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* إضافة تأثير الماوس */
+        #cursor-glow {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease;
         }
 
-        body {
-            min-height: 100vh;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
             background: linear-gradient(135deg, #020202, #0d0000, #050505, #140000);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: flex-start;
+            color: #ffffff; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            padding: 20px; 
+            overflow: hidden; 
+            position: relative; 
             font-family: 'Cairo', sans-serif;
-            padding: 1.5rem;
-            padding-bottom: 140px;
-            position: relative;
-            color: #ffffff;
-            overflow-x: hidden;
         }
         
         @keyframes gradientBG {
@@ -38,42 +45,81 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* تعديلات لتناسب المحاذاة الجديدة */
-        .total-followers-box, .contact-info-box {
-            position: relative;
-            margin-bottom: 20px;
-            background: rgba(10, 10, 10, 0.85);
-            border: 1px solid rgba(255, 0, 0, 0.3);
-            padding: 12px 22px;
-            border-radius: 12px;
-            backdrop-filter: blur(8px);
-        }
-
-        .player-container {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            width: 260px;
-            background: rgba(15, 2, 2, 0.85);
-            border: 1px solid rgba(255, 0, 0, 0.4);
-            border-radius: 14px;
-            padding: 12px 18px;
-            z-index: 100;
-        }
-
-        /* بقية التنسيقات (تأثيرات النيون، الأزرار، إلخ) */
-        .track-name { font-family: 'Orbitron', sans-serif; color: #ff3333; font-weight: bold; display: flex; align-items: center; gap: 8px; }
-        .progress-bar-container { width: 100%; height: 5px; background: #222; border-radius: 3px; cursor: pointer; margin-top: 8px; }
-        .progress-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #660000, #ff0000); border-radius: 3px; }
-        .play-inset-btn { cursor: pointer; color: #ff0000; }
-        .container { width: 100%; max-width: 440px; background: rgba(8, 8, 8, 0.9); padding: 40px 25px; border-radius: 24px; border: 1px solid rgba(255, 0, 0, 0.25); }
-        .profile-img-container { width: 135px; height: 135px; margin-bottom: 20px; position: relative; }
-        .profile-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-        .link-card { display: flex; align-items: center; justify-content: space-between; padding: 16px 22px; background: rgba(18, 18, 18, 0.85); border: 1px solid rgba(255, 0, 0, 0.15); border-radius: 14px; margin-bottom: 12px; color: #ffffff; text-decoration: none; }
-        .link-card:hover { background: #ff0000; }
+        /* بقية التنسيقات الخاصة بك كما هي... */
+        .total-followers-box { position: absolute; top: 20px; left: 20px; background: rgba(10, 10, 10, 0.85); border: 1px solid rgba(255, 0, 0, 0.3); padding: 12px 22px; border-radius: 12px; box-shadow: 0 0 15px rgba(255, 0, 0, 0.15); z-index: 10; text-align: center; backdrop-filter: blur(8px); opacity: 0; animation: fadeInTop 1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards, elementPulse 3s infinite ease-in-out 1.6s; }
+        .contact-info-box { position: absolute; top: 20px; right: 20px; background: rgba(10, 10, 10, 0.85); border: 1px solid rgba(255, 0, 0, 0.3); padding: 12px 22px; border-radius: 12px; box-shadow: 0 0 15px rgba(255, 0, 0, 0.15); z-index: 10; text-align: left; backdrop-filter: blur(8px); display: flex; flex-direction: column; gap: 6px; opacity: 0; animation: fadeInTop 1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards, elementPulse 3s infinite ease-in-out 1.6s; }
+        .player-container { position: absolute; bottom: 20px; right: 20px; width: 260px; background: rgba(15, 2, 2, 0.85); border: 1px solid rgba(255, 0, 0, 0.4); border-radius: 14px; padding: 12px 18px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 0 20px rgba(255, 0, 0, 0.2); z-index: 10; backdrop-filter: blur(8px); opacity: 0; animation: fadeInBottom 1s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards; direction: ltr; }
+        .player-track-info { display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; }
+        .track-name { font-family: 'Orbitron', sans-serif; color: #ff3333; font-weight: bold; text-shadow: 0 0 5px rgba(255, 0, 0, 0.4); display: flex; align-items: center; gap: 8px; }
+        .track-time { font-family: 'Orbitron', sans-serif; color: #b3b3b3; }
+        .progress-bar-container { width: 100%; height: 5px; background: #222; border-radius: 3px; cursor: pointer; position: relative; }
+        .progress-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #660000, #ff0000); border-radius: 3px; box-shadow: 0 0 8px #ff0000; transition: width 0.1s linear; }
+        .play-inset-btn { cursor: pointer; color: #ff0000; transition: transform 0.2s, text-shadow 0.2s; }
+        .play-inset-btn:hover { transform: scale(1.1); text-shadow: 0 0 8px #ff0000; }
+        .music-playing-glowing { animation: musicPulse 1.5s infinite ease-in-out; border-color: #ff3333 !important; }
+        @keyframes musicPulse { 0%, 100% { box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); } 50% { box-shadow: 0 0 25px rgba(255, 0, 0, 0.6); } }
+        @keyframes elementPulse { 0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 0, 0, 0.15); } 50% { transform: scale(1.03); box-shadow: 0 0 22px rgba(255, 0, 0, 0.3); } }
+        .contact-item { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #cccccc; text-decoration: none; transition: color 0.3s; }
+        .contact-item:hover { color: #ff0000; }
+        .contact-item i { color: #ff0000; font-size: 1rem; text-shadow: 0 0 5px #ff0000; width: 18px; text-align: center; }
+        .contact-item span { font-family: 'Orbitron', sans-serif; font-weight: bold; }
+        .total-followers-box .title { font-size: 0.8rem; color: #b3b3b3; display: block; font-weight: bold; }
+        .total-followers-box .count { font-family: 'Orbitron', sans-serif; font-size: 1.35rem; font-weight: 900; color: #ff0000; text-shadow: 0 0 8px #ff0000; }
+        @keyframes fadeInTop { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInBottom { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .neon-lines { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(to right, rgba(255, 0, 0, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 0, 0, 0.03) 1px, transparent 1px); background-size: 50px 50px; z-index: 0; }
+        .particles-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 0; pointer-events: none; }
+        .particle { position: absolute; border: 2px solid rgba(255, 20, 20, 0.45); box-shadow: 0 0 15px rgba(255, 0, 0, 0.6); background: rgba(255, 0, 0, 0.03); opacity: 0; animation: floatParticle 8s linear infinite; }
+        @keyframes floatParticle { 0% { transform: translateY(110vh) rotate(0deg) scale(0.6); opacity: 0; } 15% { opacity: 0.75; } 85% { opacity: 0.75; } 100% { transform: translateY(-10vh) rotate(360deg) scale(1.1); opacity: 0; } }
+        .bg-username-marquee { position: absolute; width: 100%; white-space: nowrap; display: flex; overflow: hidden; pointer-events: none; user-select: none; z-index: 0; top: 45%; transform: translateY(-50%); opacity: 0.03; filter: blur(1px); }
+        .marquee-content { display: inline-block; font-family: 'Orbitron', sans-serif; font-size: 14vw; font-weight: 900; color: transparent; -webkit-text-stroke: 2px #ff0000; letter-spacing: 15px; animation: marqueeMove 20s linear infinite; }
+        @keyframes marqueeMove { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+        .container { width: 100%; max-width: 440px; text-align: center; z-index: 1; background: rgba(8, 8, 8, 0.9); padding: 40px 25px 30px 25px; border-radius: 24px; border: 1px solid rgba(255, 0, 0, 0.25); backdrop-filter: blur(20px); box-shadow: 0 20px 45px rgba(0, 0, 0, 0.95); opacity: 0; transform: scale(0.85) translateY(40px); animation: containerUltimateSpawn 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards; display: flex; flex-direction: column; }
+        @keyframes containerUltimateSpawn { to { opacity: 1; transform: scale(1) translateY(0); } }
+        .profile-img-container, h1, .bio-container, .links-container { opacity: 0; transform: translateY(20px); animation: elementFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .profile-img-container { animation-delay: 0.3s; }
+        h1 { animation-delay: 0.45s; }
+        .bio-container { animation-delay: 0.55s; } 
+        .links-container { animation-delay: 0.75s; } 
+        @keyframes elementFadeUp { to { opacity: 1; transform: translateY(0); } }
+        .profile-img-container { position: relative; width: 135px; height: 135px; margin: 0 auto 25px auto; }
+        .profile-img-container::before { content: ''; position: absolute; top: -4px; left: -4px; right: -4px; bottom: -4px; border-radius: 50%; background: linear-gradient(45deg, #ff0000, #ff3333, #660000, #ff0000); z-index: -1; box-shadow: 0 0 20px rgba(255, 0, 0, 0.6), 0 0 40px rgba(255, 0, 0, 0.3); animation: auraPulse 3s infinite linear; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease; }
+        .profile-img-container::after { content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px; border-radius: 50%; background: transparent; box-shadow: inset 0 0 14px rgba(255, 0, 0, 0.8); z-index: 2; pointer-events: none; }
+        .profile-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; background: #111; border: 4px solid rgba(10, 10, 10, 0.95); position: relative; z-index: 1; transition: transform 0.4s ease; }
+        @keyframes auraPulse { 0% { transform: rotate(0deg) scale(1); box-shadow: 0 0 20px rgba(255, 0, 0, 0.6), 0 0 35px rgba(255, 0, 0, 0.3); } 50% { transform: rotate(180deg) scale(1.04); box-shadow: 0 0 30px rgba(255, 0, 0, 0.85), 0 0 55px rgba(255, 0, 0, 0.5); } 100% { transform: rotate(360deg) scale(1); box-shadow: 0 0 20px rgba(255, 0, 0, 0.6), 0 0 35px rgba(255, 0, 0, 0.3); } }
+        .profile-img-container:hover .profile-img { transform: scale(1.04); }
+        .profile-img-container:hover::before { transform: scale(1.12); box-shadow: 0 0 40px rgba(255, 0, 0, 0.95), 0 0 75px rgba(255, 0, 0, 0.6); }
+        h1 { font-family: 'Orbitron', 'Cinzel', sans-serif; font-size: 2.1rem; font-weight: 900; margin-bottom: 15px; color: #ffffff; letter-spacing: 2px; text-transform: uppercase; animation: neonSignPulse 4s infinite alternate ease-in-out; }
+        @keyframes neonSignPulse { 0%, 100% { text-shadow: 0 0 8px rgba(255, 0, 0, 0.6), 0 0 20px rgba(255, 0, 0, 0.3); opacity: 1; } 50% { text-shadow: 0 0 18px rgba(255, 0, 0, 0.9), 0 0 40px rgba(255, 0, 0, 0.5); color: #ffffff; } }
+        .brackets { font-family: 'Cinzel', serif; color: #ff0000; text-shadow: 0 0 10px #ff0000; }
+        .bio-container { display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin: 0 auto 35px auto; position: relative; background: rgba(20, 0, 0, 0.6); border: 1px solid rgba(255, 0, 0, 0.4); padding: 6px 20px; border-radius: 30px; box-shadow: 0 0 10px rgba(255, 0, 0, 0.2); animation: badgeGlowPulse 2.5s infinite alternate ease-in-out; }
+        .bio { font-size: 0.9rem; color: #ffffff; letter-spacing: 1px; font-weight: 700; text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); }
+        .bio-container i { color: #ff3333; font-size: 0.95rem; animation: firePulse 1s infinite alternate ease-in-out; }
+        .bio-container::after { content: ''; position: absolute; bottom: -6px; left: 25%; width: 50%; height: 2px; background: #ff0000; border-radius: 2px; box-shadow: 0 0 8px #ff0000; }
+        @keyframes badgeGlowPulse { 0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 0, 0, 0.2); border-color: rgba(255, 0, 0, 0.4); } 50% { transform: scale(1.02); box-shadow: 0 0 18px rgba(255, 0, 0, 0.4); border-color: rgba(255, 0, 0, 0.8); } }
+        @keyframes firePulse { 0% { transform: scale(1); text-shadow: 0 0 2px #ff0000; } 100% { transform: scale(1.2); text-shadow: 0 0 8px #ff0000, 0 0 15px #ff0000; } }
+        .links-container { display: flex; flex-direction: column; gap: 16px; width: 100%; }
+        .link-card { display: flex; align-items: center; justify-content: space-between; padding: 16px 22px; background: rgba(18, 18, 18, 0.85); border: 1px solid rgba(255, 0, 0, 0.15); border-radius: 14px; color: #ffffff; text-decoration: none; font-weight: 700; font-size: 1.05rem; opacity: 0; transform: translateY(25px); animation: cardFadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; transition: background 0.2s, box-shadow 0.2s, transform 0.2s; }
+        .link-card:nth-child(1) { animation-delay: 0.75s; }
+        .link-card:nth-child(2) { animation-delay: 0.87s; }
+        .link-card:nth-child(3) { animation-delay: 0.99s; }
+        .link-card:nth-child(4) { animation-delay: 1.11s; }
+        @keyframes cardFadeIn { to { opacity: 1; transform: translateY(0); } }
+        .link-card:hover { background: #ff0000; box-shadow: 0 0 25px rgba(255, 0, 0, 0.5); transform: scale(1.02); border-color: #ff0000; }
+        .link-card:active { transform: scale(0.96) !important; box-shadow: 0 0 10px rgba(255, 0, 0, 0.3) !important; transition: transform 0.1s ease; }
+        .link-content { display: flex; align-items: center; gap: 16px; text-align: left; }
+        .link-content i { font-size: 1.65rem; width: 32px; text-align: center; color: #ff0000 !important; text-shadow: 0 0 8px rgba(255, 0, 0, 0.4); }
+        .text-info { display: flex; flex-direction: column; text-align: left; }
+        .follower-count { font-size: 0.82rem; color: #ff3333; font-weight: bold; margin-top: 3px; }
+        .link-card:hover .follower-count, .link-card:hover .link-content i, .link-card:hover .arrow-icon { color: #ffffff !important; text-shadow: none; }
+        .arrow-icon { font-size: 0.95rem; color: #ff0000; opacity: 0.7; transition: transform 0.3s ease; }
+        .link-card:hover .arrow-icon { transform: translateX(6px); opacity: 1; }
+        @media (max-width: 768px) { body { padding-top: 160px; padding-bottom: 120px; overflow-y: auto; } .total-followers-box { top: 15px; left: 15px; width: calc(50% - 20px); padding: 8px; } .contact-info-box { top: 15px; right: 15px; width: calc(50% - 20px); padding: 8px; text-align: center; justify-content: center; } .contact-item { font-size: 0.75rem; justify-content: center; } .total-followers-box .count { font-size: 1.15rem; } .player-container { position: relative; bottom: auto; right: auto; width: 100%; margin-top: 25px; animation: elementFadeUp 0.8s ease forwards; } }
     </style>
 </head>
 <body>
+
+    <div id="cursor-glow"></div> <audio id="bgMusic" src="deathnote.mp3" loop></audio>
 
     <div class="total-followers-box">
         <span class="title">Total Followers</span>
@@ -81,50 +127,244 @@
     </div>
 
     <div class="contact-info-box">
-        <a href="mailto:nikovax30@gmail.com" class="contact-item"><i class="fas fa-envelope"></i> nikovax30@gmail.com</a>
+        <a href="mailto:nikovax30@gmail.com" class="contact-item">
+            <i class="fas fa-envelope"></i>
+            <span>nikovax30@gmail.com</span>
+        </a>
+        <a href="tel:05012345678" class="contact-item">
+            <i class="fas fa-phone-alt"></i>
+            <span>05012345678</span>
+        </a>
+    </div>
+
+    <div class="neon-lines"></div>
+    
+    <div class="particles-container" id="particlesContainer"></div>
+
+    <div class="bg-username-marquee">
+        <div class="marquee-content">
+            NIKOVAX 3.0 &nbsp;&nbsp;&nbsp;&nbsp; NIKOVAX 3.0 &nbsp;&nbsp;&nbsp;&nbsp; NIKOVAX 3.0 &nbsp;&nbsp;&nbsp;&nbsp; NIKOVAX 3.0 &nbsp;&nbsp;&nbsp;&nbsp;
+            NIKOVAX 3.0 &nbsp;&nbsp;&nbsp;&nbsp; NIKOVAX 3.0 &nbsp;&nbsp;&nbsp;&nbsp; NIKOVAX 3.0 &nbsp;&nbsp;&nbsp;&nbsp; NIKOVAX 3.0 &nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
     </div>
 
     <div class="container">
         <div class="profile-img-container">
-            <img src="https://cdn.discordapp.com/attachments/1418196235218845789/1523130991407792178/4g4_1.jpg?ex=6a4afdc6&is=6a49ac46&hm=4cb9cc87e47ca91c19e68d1bff995a6dfbf897633ffd6e64d5d38d72379cf3bb&" alt="Profile" class="profile-img">
+            <img src="https://cdn.discordapp.com/attachments/1418196235218845789/1523130991407792178/4g4_1.jpg?ex=6a4afdc6&is=6a49ac46&hm=4cb9cc87e47ca91c19e68d1bff995a6dfbf897633ffd6e64d5d38d72379cf3bb&" alt="NIKOVAX3.0 Profile" class="profile-img">
         </div>
-        <h1>NIKOVAX 3.0</h1>
+        
+        <h1><span class="brackets">[</span> NIKOVAX 3.0 <span class="brackets">]</span></h1>
+        
+        <div class="bio-container">
+            <i class="fas fa-fire"></i>
+            <p class="bio">Content Creator</p>
+        </div>
+        
         <div class="links-container">
-            <a href="#" class="link-card"><span>Instagram</span></a>
-            <a href="#" class="link-card"><span>YouTube</span></a>
+            <a href="https://instagram.com/NIKOVAX3.0" target="_blank" class="link-card">
+                <div class="link-content">
+                    <i class="fab fa-instagram"></i>
+                    <div class="text-info">
+                        <span>Instagram</span>
+                        <span class="follower-count"><span class="counter" data-target="56">0</span> Followers</span>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right arrow-icon"></i>
+            </a>
+
+            <a href="https://youtube.com/@NIKOVAX3.0" target="_blank" class="link-card">
+                <div class="link-content">
+                    <i class="fab fa-youtube"></i>
+                    <div class="text-info">
+                        <span>YouTube</span>
+                        <span class="follower-count"><span class="counter" data-target="132">0</span> Subscribers</span>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right arrow-icon"></i>
+            </a>
+
+            <a href="https://tiktok.com/@NIKOVAX3.0" target="_blank" class="link-card">
+                <div class="link-content">
+                    <i class="fab fa-tiktok"></i>
+                    <div class="text-info">
+                        <span>TikTok</span>
+                        <span class="follower-count"><span class="counter" data-target="1890">0</span> Followers</span>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right arrow-icon"></i>
+            </a>
+
+            <a href="https://discord.gg/8QWsyV7PZn" target="_blank" class="link-card">
+                <div class="link-content">
+                    <i class="fab fa-discord"></i>
+                    <div class="text-info">
+                        <span>Discord Server</span>
+                        <span class="follower-count"><span class="counter" data-target="88">0</span> Members</span>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right arrow-icon"></i>
+            </a>
         </div>
     </div>
 
     <div class="player-container" id="playerWrap">
-        <div class="track-name">
-            <i class="fas fa-play play-inset-btn" id="insetPlayIcon" onclick="toggleMusic()"></i> 
-            DEATH NOTE OST
+        <div class="player-track-info">
+            <span class="track-name">
+                <i class="fas fa-play play-inset-btn" id="insetPlayIcon" onclick="toggleMusic()"></i> 
+                DEATH NOTE OST
+            </span>
+            <span class="track-time" id="trackTime">00:00</span>
         </div>
         <div class="progress-bar-container" id="progressContainer">
             <div class="progress-fill" id="progressFill"></div>
         </div>
     </div>
 
-    <audio id="bgMusic" src="deathnote.mp3" loop></audio>
-
     <script>
+        // كود تحريك التوهج مع الماوس
+        const cursorGlow = document.getElementById('cursor-glow');
+        document.addEventListener('mousemove', (e) => {
+            cursorGlow.style.left = e.clientX + 'px';
+            cursorGlow.style.top = e.clientY + 'px';
+        });
+
+        // باقي السكربت الخاص بك كما هو...
         const myAudio = document.getElementById("bgMusic");
+        const playerWrap = document.getElementById("playerWrap");
         const insetPlayIcon = document.getElementById("insetPlayIcon");
         const progressFill = document.getElementById("progressFill");
+        const progressContainer = document.getElementById("progressContainer");
+        const trackTime = document.getElementById("trackTime");
+
+        myAudio.volume = 0.30;
 
         function toggleMusic() {
             if (myAudio.paused) {
-                myAudio.play();
-                insetPlayIcon.className = "fas fa-pause play-inset-btn";
+                myAudio.play().catch(err => console.log("User interaction required"));
+                updateUIIonPlay();
             } else {
                 myAudio.pause();
-                insetPlayIcon.className = "fas fa-play play-inset-btn";
+                updateUIIonPause();
             }
         }
 
+        function updateUIIonPlay() {
+            insetPlayIcon.className = "fas fa-pause play-inset-btn"; 
+            playerWrap.classList.add("music-playing-glowing"); 
+        }
+
+        function updateUIIonPause() {
+            insetPlayIcon.className = "fas fa-play play-inset-btn"; 
+            playerWrap.classList.remove("music-playing-glowing"); 
+        }
+
         myAudio.addEventListener("timeupdate", () => {
-            const progress = (myAudio.currentTime / myAudio.duration) * 100;
-            progressFill.style.width = `${progress}%`;
+            if(myAudio.duration) {
+                const progressPercent = (myAudio.currentTime / myAudio.duration) * 100;
+                progressFill.style.width = `${progressPercent}%`;
+                
+                let mins = Math.floor(myAudio.currentTime / 60);
+                let secs = Math.floor(myAudio.currentTime % 60);
+                if (mins < 10) mins = '0' + mins;
+                if (secs < 10) secs = '0' + secs;
+                trackTime.innerText = `${mins}:${secs}`;
+            }
+        });
+
+        progressContainer.addEventListener("click", (e) => {
+            const width = progressContainer.clientWidth;
+            const clickX = e.offsetX;
+            const duration = myAudio.duration;
+            if(duration) {
+                myAudio.currentTime = (clickX / width) * duration;
+            }
+        });
+
+        document.body.addEventListener("click", (e) => {
+            if (myAudio.paused && !e.target.classList.contains('play-inset-btn')) {
+                myAudio.play().then(() => {
+                    updateUIIonPlay();
+                }).catch(() => {});
+            }
+        }, { once: true });
+
+        function spawnDynamicParticles() {
+            const container = document.getElementById('particlesContainer');
+            const shapes = ['square', 'circle', 'triangle'];
+            const maxParticles = 25;
+
+            for (let i = 0; i < maxParticles; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                    const size = Math.floor(Math.random() * 20) + 12;
+                    
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    
+                    if (shape === 'circle') {
+                        particle.style.borderRadius = '50%';
+                    } else if (shape === 'triangle') {
+                        particle.style.width = '0'; 
+                        particle.style.height = '0';
+                        particle.style.borderLeft = `${size/2}px solid transparent`;
+                        particle.style.borderRight = `${size/2}px solid transparent`;
+                        particle.style.borderBottom = `${size}px solid rgba(255, 30, 30, 0.65)`;
+                        particle.style.borderTop = 'none'; 
+                        particle.style.boxShadow = 'none'; 
+                        particle.style.background = 'transparent';
+                    }
+                    
+                    particle.style.left = `${Math.random() * 100}vw`;
+                    const duration = Math.random() * 5 + 6;
+                    particle.style.animationDuration = `${duration}s`;
+                    
+                    container.appendChild(particle);
+                    setTimeout(() => { particle.remove(); }, duration * 1000);
+                }, Math.random() * 5000);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            spawnDynamicParticles();
+            setInterval(spawnDynamicParticles, 6000);
+
+            const counters = document.querySelectorAll('.counter');
+            let totalFollowers = 0;
+
+            counters.forEach(counter => {
+                totalFollowers += +counter.getAttribute('data-target');
+            });
+
+            const animateCount = (element, targetValue) => {
+                let startValue = 0;
+                const duration = 2000; 
+                const startTime = performance.now();
+
+                const updateCount = (currentTime) => {
+                    const elapsedTime = currentTime - startTime;
+                    if (elapsedTime < duration) {
+                        const progress = elapsedTime / duration;
+                        const easeOutProgress = 1 - Math.pow(1 - progress, 3);
+                        const currentValue = Math.floor(easeOutProgress * targetValue);
+                        
+                        element.innerText = currentValue.toLocaleString();
+                        requestAnimationFrame(updateCount);
+                    } else {
+                        element.innerText = targetValue.toLocaleString();
+                    }
+                };
+                requestAnimationFrame(updateCount);
+            };
+
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                animateCount(counter, target);
+            });
+
+            const totalCounterElement = document.getElementById('totalCounter');
+            animateCount(totalCounterElement, totalFollowers);
         });
     </script>
 </body>
