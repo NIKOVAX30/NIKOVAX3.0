@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NIKOVAX3.0 | حساباتي</title>
+    <title>NIKOVAX3.0 | My Accounts</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Orbitron:wght@800;900&family=Cinzel:wght@900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -32,11 +32,11 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* 📊 العداد العلوي */
+        /* 📊 Top Counter */
         .total-followers-box {
             position: absolute;
             top: 20px;
-            right: 20px;
+            left: 20px;
             background: rgba(10, 10, 10, 0.85);
             border: 1px solid rgba(255, 0, 0, 0.3);
             padding: 12px 22px; 
@@ -49,18 +49,18 @@
             animation: fadeInTop 1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards, elementPulse 3s infinite ease-in-out 1.6s;
         }
 
-        /* 📧 صندوق معلومات التواصل */
+        /* 📧 Contact Info Box */
         .contact-info-box {
             position: absolute;
             top: 20px;
-            left: 20px;
+            right: 20px;
             background: rgba(10, 10, 10, 0.85);
             border: 1px solid rgba(255, 0, 0, 0.3);
             padding: 12px 22px; 
             border-radius: 12px;
             box-shadow: 0 0 15px rgba(255, 0, 0, 0.15);
             z-index: 10;
-            text-align: right;
+            text-align: left;
             backdrop-filter: blur(8px);
             display: flex;
             flex-direction: column;
@@ -69,11 +69,11 @@
             animation: fadeInTop 1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards, elementPulse 3s infinite ease-in-out 1.6s;
         }
 
-        /* 🎵 مشغل الصوت النيون الفخم - في الزاوية السفلية اليسرى (تحت شمال) 🎵 */
+        /* 🎵 Music Player */
         .player-container {
             position: absolute;
             bottom: 20px;
-            left: 20px;
+            right: 20px;
             width: 260px;
             background: rgba(15, 2, 2, 0.85);
             border: 1px solid rgba(255, 0, 0, 0.4);
@@ -87,7 +87,7 @@
             backdrop-filter: blur(8px);
             opacity: 0;
             animation: fadeInBottom 1s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
-            direction: ltr; /* لجعل العداد والشريط من اليسار لليمين بشكل منسق */
+            direction: ltr;
         }
 
         .player-track-info {
@@ -126,7 +126,6 @@
             transition: width 0.1s linear;
         }
 
-        /* زر التشغيل/الكتم المدمج مع الشريط */
         .play-inset-btn {
             cursor: pointer;
             color: #ff0000;
@@ -169,7 +168,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 🌐 خطوط نيون الخلفية */
         .neon-lines {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -180,7 +178,6 @@
             z-index: 0;
         }
 
-        /* 🔺 الأجسام الهندسية المضيئة الكثيفة */
         .particles-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 0; pointer-events: none; }
         .particle { 
             position: absolute; 
@@ -198,7 +195,6 @@
             100% { transform: translateY(-10vh) rotate(360deg) scale(1.1); opacity: 0; }
         }
         
-        /* ✍️ تكست الخلفية */
         .bg-username-marquee {
             position: absolute;
             width: 100%;
@@ -228,7 +224,6 @@
             100% { transform: translateX(-50%); }
         }
         
-        /* 🔥 الصندوق الرئيسي */
         .container { 
             width: 100%; 
             max-width: 440px; 
@@ -251,7 +246,6 @@
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        /* أنيميشن تدريجي للعناصر الداخلية */
         .profile-img-container, h1, .bio-container, .links-container {
             opacity: 0;
             transform: translateY(20px);
@@ -266,7 +260,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 🖼️ تأثير الهالة المضيئة (Aura Glow) حول حواف الصورة */
         .profile-img-container { 
             position: relative; 
             width: 135px; 
@@ -317,7 +310,6 @@
             box-shadow: 0 0 40px rgba(255, 0, 0, 0.95), 0 0 75px rgba(255, 0, 0, 0.6);
         }
         
-        /* 💡 خط الاسم */
         h1 { 
             font-family: 'Orbitron', 'Cinzel', sans-serif;
             font-size: 2.1rem; 
@@ -336,7 +328,6 @@
 
         .brackets { font-family: 'Cinzel', serif; color: #ff0000; text-shadow: 0 0 10px #ff0000; }
 
-        /* 📋 كبسولة نيون صانع محتوى */
         .bio-container { 
             display: inline-flex; 
             align-items: center;
@@ -383,7 +374,6 @@
 
         .links-container { display: flex; flex-direction: column; gap: 16px; width: 100%; }
         
-        /* كروت التطبيقات المعدلة لتصبح باللون الأحمر بالكامل */
         .link-card { 
             display: flex; 
             align-items: center; 
@@ -424,9 +414,8 @@
             transition: transform 0.1s ease;
         }
         
-        .link-content { display: flex; align-items: center; gap: 16px; text-align: right; }
+        .link-content { display: flex; align-items: center; gap: 16px; text-align: left; }
         
-        /* جعل الأيقونات حمراء بشكل موحد وثابت */
         .link-content i { 
             font-size: 1.65rem; 
             width: 32px; 
@@ -435,29 +424,27 @@
             text-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
         }
         
-        .text-info { display: flex; flex-direction: column; }
+        .text-info { display: flex; flex-direction: column; text-align: left; }
         .follower-count { font-size: 0.82rem; color: #ff3333; font-weight: bold; margin-top: 3px; }
         
-        /* جعل الأيقونات والسهم تتحول للأبيض النقي عند وقوف الماوس (Hover) لسهولة القراءة والجمالية */
         .link-card:hover .follower-count,
         .link-card:hover .link-content i,
         .link-card:hover .arrow-icon { color: #ffffff !important; text-shadow: none; }
 
         .arrow-icon { font-size: 0.95rem; color: #ff0000; opacity: 0.7; transition: transform 0.3s ease; }
-        .link-card:hover .arrow-icon { transform: translateX(-6px); opacity: 1; }
+        .link-card:hover .arrow-icon { transform: translateX(6px); opacity: 1; }
 
         @media (max-width: 768px) {
             body { padding-top: 160px; padding-bottom: 120px; overflow-y: auto; }
-            .total-followers-box { top: 15px; right: 15px; width: calc(50% - 20px); padding: 8px; }
-            .contact-info-box { top: 15px; left: 15px; width: calc(50% - 20px); padding: 8px; text-align: center; justify-content: center; }
+            .total-followers-box { top: 15px; left: 15px; width: calc(50% - 20px); padding: 8px; }
+            .contact-info-box { top: 15px; right: 15px; width: calc(50% - 20px); padding: 8px; text-align: center; justify-content: center; }
             .contact-item { font-size: 0.75rem; justify-content: center; }
             .total-followers-box .count { font-size: 1.15rem; }
             
-            /* تكييف المشغل على الهواتف */
             .player-container {
                 position: relative;
                 bottom: auto;
-                left: auto;
+                right: auto;
                 width: 100%;
                 margin-top: 25px;
                 animation: elementFadeUp 0.8s ease forwards;
@@ -470,7 +457,7 @@
     <audio id="bgMusic" src="deathnote.mp3" loop></audio>
 
     <div class="total-followers-box">
-        <span class="title">إجمالي المتابعين</span>
+        <span class="title">Total Followers</span>
         <span class="count" id="totalCounter">0</span>
     </div>
 
@@ -505,7 +492,7 @@
         
         <div class="bio-container">
             <i class="fas fa-fire"></i>
-            <p class="bio">صانع محتوى</p>
+            <p class="bio">Content Creator</p>
         </div>
         
         <div class="links-container">
@@ -513,44 +500,44 @@
                 <div class="link-content">
                     <i class="fab fa-instagram"></i>
                     <div class="text-info">
-                        <span>إنستغرام</span>
-                        <span class="follower-count"><span class="counter" data-target="56">0</span> متابع</span>
+                        <span>Instagram</span>
+                        <span class="follower-count"><span class="counter" data-target="56">0</span> Followers</span>
                     </div>
                 </div>
-                <i class="fas fa-chevron-left arrow-icon"></i>
+                <i class="fas fa-chevron-right arrow-icon"></i>
             </a>
 
             <a href="https://youtube.com/@NIKOVAX3.0" target="_blank" class="link-card">
                 <div class="link-content">
                     <i class="fab fa-youtube"></i>
                     <div class="text-info">
-                        <span>يوتيوب</span>
-                        <span class="follower-count"><span class="counter" data-target="132">0</span> مشترك</span>
+                        <span>YouTube</span>
+                        <span class="follower-count"><span class="counter" data-target="132">0</span> Subscribers</span>
                     </div>
                 </div>
-                <i class="fas fa-chevron-left arrow-icon"></i>
+                <i class="fas fa-chevron-right arrow-icon"></i>
             </a>
 
             <a href="https://tiktok.com/@NIKOVAX3.0" target="_blank" class="link-card">
                 <div class="link-content">
                     <i class="fab fa-tiktok"></i>
                     <div class="text-info">
-                        <span>تيك توك</span>
-                        <span class="follower-count"><span class="counter" data-target="1890">0</span> متابع</span>
+                        <span>TikTok</span>
+                        <span class="follower-count"><span class="counter" data-target="1890">0</span> Followers</span>
                     </div>
                 </div>
-                <i class="fas fa-chevron-left arrow-icon"></i>
+                <i class="fas fa-chevron-right arrow-icon"></i>
             </a>
 
             <a href="https://discord.gg/8QWsyV7PZn" target="_blank" class="link-card">
                 <div class="link-content">
                     <i class="fab fa-discord"></i>
                     <div class="text-info">
-                        <span>سيرفر الديسكورد</span>
-                        <span class="follower-count"><span class="counter" data-target="88">0</span> عضو</span>
+                        <span>Discord Server</span>
+                        <span class="follower-count"><span class="counter" data-target="88">0</span> Members</span>
                     </div>
                 </div>
-                <i class="fas fa-chevron-left arrow-icon"></i>
+                <i class="fas fa-chevron-right arrow-icon"></i>
             </a>
         </div>
     </div>
@@ -576,12 +563,11 @@
         const progressContainer = document.getElementById("progressContainer");
         const trackTime = document.getElementById("trackTime");
 
-        // ضبط مستوى الصوت ليكون مناسباً وخافتاً بنسبة 30%
         myAudio.volume = 0.30;
 
         function toggleMusic() {
             if (myAudio.paused) {
-                myAudio.play().catch(err => console.log("تحتاج لتفاعل مسبق للتشغيل"));
+                myAudio.play().catch(err => console.log("User interaction required"));
                 updateUIIonPlay();
             } else {
                 myAudio.pause();
@@ -599,13 +585,11 @@
             playerWrap.classList.remove("music-playing-glowing"); 
         }
 
-        // تحديث شريط التقدم والوقت بشكل متزامن تلقائياً
         myAudio.addEventListener("timeupdate", () => {
             if(myAudio.duration) {
                 const progressPercent = (myAudio.currentTime / myAudio.duration) * 100;
                 progressFill.style.width = `${progressPercent}%`;
                 
-                // حساب الوقت
                 let mins = Math.floor(myAudio.currentTime / 60);
                 let secs = Math.floor(myAudio.currentTime % 60);
                 if (mins < 10) mins = '0' + mins;
@@ -614,7 +598,6 @@
             }
         });
 
-        // التقديم والتأخير عند الضغط على شريط التقدم
         progressContainer.addEventListener("click", (e) => {
             const width = progressContainer.clientWidth;
             const clickX = e.offsetX;
@@ -624,9 +607,7 @@
             }
         });
 
-        // تشغيل تلقائي ذكي بمجرد لمس المستخدم لأي مكان بالصفحة لتخطي قيود المتصفحات
         document.body.addEventListener("click", (e) => {
-            // التحقق من أن الضغط لم يكن لإيقاف الأغنية يدوياً
             if (myAudio.paused && !e.target.classList.contains('play-inset-btn')) {
                 myAudio.play().then(() => {
                     updateUIIonPlay();
@@ -634,7 +615,6 @@
             }
         }, { once: true });
 
-        // الأجسام الطائرة عشوائياً في الخلفية
         function spawnDynamicParticles() {
             const container = document.getElementById('particlesContainer');
             const shapes = ['square', 'circle', 'triangle'];
@@ -677,25 +657,21 @@
             spawnDynamicParticles();
             setInterval(spawnDynamicParticles, 6000);
 
-            // ⚡ أنيميشن العداد التصاعدي المتقدم والذكي ⚡
             const counters = document.querySelectorAll('.counter');
             let totalFollowers = 0;
 
-            // حساب المجموع الكلي أولاً بناءً على الأرقام المطلوبة
             counters.forEach(counter => {
                 totalFollowers += +counter.getAttribute('data-target');
             });
 
-            // دالة عداد الأرقام بسلاسة
             const animateCount = (element, targetValue) => {
                 let startValue = 0;
-                const duration = 2000; // مدة حركة العداد (ثانيتين)
+                const duration = 2000; 
                 const startTime = performance.now();
 
                 const updateCount = (currentTime) => {
                     const elapsedTime = currentTime - startTime;
                     if (elapsedTime < duration) {
-                        // معادلة حركة متسارعة ثم متباطئة (Ease-Out) لمنح العداد مظهر احترافي
                         const progress = elapsedTime / duration;
                         const easeOutProgress = 1 - Math.pow(1 - progress, 3);
                         const currentValue = Math.floor(easeOutProgress * targetValue);
@@ -709,13 +685,11 @@
                 requestAnimationFrame(updateCount);
             };
 
-            // تشغيل أنيميشن العدادات لكل منصة
             counters.forEach(counter => {
                 const target = +counter.getAttribute('data-target');
                 animateCount(counter, target);
             });
 
-            // تشغيل أنيميشن العداد الكلي العلوي
             const totalCounterElement = document.getElementById('totalCounter');
             animateCount(totalCounterElement, totalFollowers);
         });
