@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* إضافة تأثير الماوس */
         #cursor-glow {
             position: fixed;
             width: 400px;
@@ -30,11 +29,12 @@
             animation: gradientBG 15s ease infinite;
             color: #ffffff; 
             display: flex; 
+            flex-direction: column;
             justify-content: center; 
             align-items: center; 
             min-height: 100vh; 
             padding: 20px; 
-            overflow: hidden; 
+            overflow-x: hidden; 
             position: relative; 
             font-family: 'Cairo', sans-serif;
         }
@@ -45,10 +45,29 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* بقية التنسيقات الخاصة بك كما هي... */
         .total-followers-box { position: absolute; top: 20px; left: 20px; background: rgba(10, 10, 10, 0.85); border: 1px solid rgba(255, 0, 0, 0.3); padding: 12px 22px; border-radius: 12px; box-shadow: 0 0 15px rgba(255, 0, 0, 0.15); z-index: 10; text-align: center; backdrop-filter: blur(8px); opacity: 0; animation: fadeInTop 1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards, elementPulse 3s infinite ease-in-out 1.6s; }
         .contact-info-box { position: absolute; top: 20px; right: 20px; background: rgba(10, 10, 10, 0.85); border: 1px solid rgba(255, 0, 0, 0.3); padding: 12px 22px; border-radius: 12px; box-shadow: 0 0 15px rgba(255, 0, 0, 0.15); z-index: 10; text-align: left; backdrop-filter: blur(8px); display: flex; flex-direction: column; gap: 6px; opacity: 0; animation: fadeInTop 1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards, elementPulse 3s infinite ease-in-out 1.6s; }
-        .player-container { position: absolute; bottom: 20px; right: 20px; width: 260px; background: rgba(15, 2, 2, 0.85); border: 1px solid rgba(255, 0, 0, 0.4); border-radius: 14px; padding: 12px 18px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 0 20px rgba(255, 0, 0, 0.2); z-index: 10; backdrop-filter: blur(8px); opacity: 0; animation: fadeInBottom 1s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards; direction: ltr; }
+        
+        /* المشغل الآن مخصص ليكون في الأسفل تحت المحتوى */
+        .player-container { 
+            width: 100%; 
+            max-width: 440px; 
+            margin-top: 30px;
+            background: rgba(15, 2, 2, 0.85); 
+            border: 1px solid rgba(255, 0, 0, 0.4); 
+            border-radius: 14px; 
+            padding: 12px 18px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 8px; 
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.2); 
+            z-index: 10; 
+            backdrop-filter: blur(8px); 
+            opacity: 0; 
+            animation: fadeInBottom 1s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards; 
+            direction: ltr; 
+        }
+        
         .player-track-info { display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; }
         .track-name { font-family: 'Orbitron', sans-serif; color: #ff3333; font-weight: bold; text-shadow: 0 0 5px rgba(255, 0, 0, 0.4); display: flex; align-items: center; gap: 8px; }
         .track-time { font-family: 'Orbitron', sans-serif; color: #b3b3b3; }
@@ -114,7 +133,13 @@
         .link-card:hover .follower-count, .link-card:hover .link-content i, .link-card:hover .arrow-icon { color: #ffffff !important; text-shadow: none; }
         .arrow-icon { font-size: 0.95rem; color: #ff0000; opacity: 0.7; transition: transform 0.3s ease; }
         .link-card:hover .arrow-icon { transform: translateX(6px); opacity: 1; }
-        @media (max-width: 768px) { body { padding-top: 160px; padding-bottom: 120px; overflow-y: auto; } .total-followers-box { top: 15px; left: 15px; width: calc(50% - 20px); padding: 8px; } .contact-info-box { top: 15px; right: 15px; width: calc(50% - 20px); padding: 8px; text-align: center; justify-content: center; } .contact-item { font-size: 0.75rem; justify-content: center; } .total-followers-box .count { font-size: 1.15rem; } .player-container { position: relative; bottom: auto; right: auto; width: 100%; margin-top: 25px; animation: elementFadeUp 0.8s ease forwards; } }
+        
+        @media (max-width: 768px) { 
+            body { padding-top: 100px; overflow-y: auto; } 
+            .total-followers-box { top: 10px; left: 10px; width: 45%; padding: 8px; } 
+            .contact-info-box { top: 10px; right: 10px; width: 45%; padding: 8px; font-size: 0.8rem; }
+            .container { padding: 30px 15px; }
+        }
     </style>
 </head>
 <body>
@@ -138,21 +163,18 @@
     </div>
 
     <div class="neon-lines"></div>
-    
     <div class="particles-container" id="particlesContainer"></div>
 
     <div class="bg-username-marquee">
         <div class="marquee-content">
-            NIKOVAX 3.0 &nbsp;&nbsp;&nbsp;&nbsp; NIKOVAX 3.0 &nbsp;&nbsp;&nbsp;&nbsp; NIKOVAX 3.0 &nbsp;&nbsp;&nbsp;&nbsp; NIKOVAX 3.0 &nbsp;&nbsp;&nbsp;&nbsp;
             NIKOVAX 3.0 &nbsp;&nbsp;&nbsp;&nbsp; NIKOVAX 3.0 &nbsp;&nbsp;&nbsp;&nbsp; NIKOVAX 3.0 &nbsp;&nbsp;&nbsp;&nbsp; NIKOVAX 3.0 &nbsp;&nbsp;&nbsp;&nbsp;
         </div>
     </div>
 
     <div class="container">
         <div class="profile-img-container">
-            <img src="https://cdn.discordapp.com/attachments/1418196235218845789/1523130991407792178/4g4_1.jpg?ex=6a4afdc6&is=6a49ac46&hm=4cb9cc87e47ca91c19e68d1bff995a6dfbf897633ffd6e64d5d38d72379cf3bb&" alt="NIKOVAX3.0 Profile" class="profile-img">
+            <img src="https://cdn.phototourl.com/free/2026-07-06-aca1d9a7-576c-4f19-9b2b-56d141bba00b.jpg" alt="NIKOVAX3.0 Profile" class="profile-img">
         </div>
-        
         <h1><span class="brackets">[</span> NIKOVAX 3.0 <span class="brackets">]</span></h1>
         
         <div class="bio-container">
@@ -221,14 +243,12 @@
     </div>
 
     <script>
-        // كود تحريك التوهج مع الماوس
         const cursorGlow = document.getElementById('cursor-glow');
         document.addEventListener('mousemove', (e) => {
             cursorGlow.style.left = e.clientX + 'px';
             cursorGlow.style.top = e.clientY + 'px';
         });
 
-        // باقي السكربت الخاص بك كما هو...
         const myAudio = document.getElementById("bgMusic");
         const playerWrap = document.getElementById("playerWrap");
         const insetPlayIcon = document.getElementById("insetPlayIcon");
